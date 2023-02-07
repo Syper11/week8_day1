@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import Nav from './Nav'
-import Home from './Home'
-import News from './News'
+import Nav from './Nav';
+import Home from './Home';
+import Signup from './Signup';
+import Lognin from './Login';
+
 
 export default class App extends Component {
   constructor(){
@@ -15,17 +17,11 @@ export default class App extends Component {
     return (
       <div>
         <Nav />
-        {/* <News></News> */}
-        <Home testVar = {this.state.test}/>
-        {/* <Content>
-          <Feed>
-            <Post>
-
-            </Post>
-          </Feed>
-        </Content> */}
-
-
+        {/* <Lognin/> */}
+        {/* <Signup/>
+        
+        <Home/> */}
+      
       </div>
     )
   }
