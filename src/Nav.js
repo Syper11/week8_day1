@@ -14,7 +14,7 @@ export default class Nav extends Component {
                             <a className="nav-link active" aria-current="page" href="#">Home</a>
                             <a className="nav-link" href="#">Fake News</a>
                             <a className="nav-link" href="#">Log In</a>
-                            <a className="nav-link disabled">Sign Up</a>
+                            <a className="nav-link" href="#">Sign Up</a>
                         </div>
                     </div>
                 </div>
