@@ -29,14 +29,40 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUpPage() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const first_name = e.target.first_name.value;
+    const last_name = e.target.last_name.value;
+    const username = e.target.username.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const confirmPassword = e.target.confirmPassword.value;
+
+    const reqBody = {
+        first_name: first_name,
+        last_name: last_name,
+        username: username,
+        email: email,
+        password: password
+    }
+
+    const url = 'http://localhost:5000/api/signup'
+    const options = {
+        method: "POST",
+        body: JSON.stringify(reqBody),
+        headers: {
+            "Content-Type": 'application/json'
+        }
+    }
+    if (password!== confirmPassword) {
+        console.log('oops password dont match')
+    }
+
+    const res = await fetch(url, options);
+    const data = await res.json();
+    console.log(data)
+
+};
 
   return (
     <ThemeProvider theme={theme}>
@@ -132,7 +158,7 @@ export default function SignUpPage() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/" variant="body2">
+                <Link href="/Login" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
