@@ -28,14 +28,29 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function LogInPage() {
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+export default function LogInPage({logMeIn}) {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const username = e.target.username.value;
+        const password = e.target.password.value;
+        
+
+        const url = 'http://localhost:5000/api/login'
+        const options = {
+            method: "POST",
+            headers: {
+                Authorization: `Basic ${btoa(username+':'+password)}`
+            }
+        }
+    
+
+        const res = await fetch(url, options);
+        const data = await res.json();
+        console.log(data)
+        if (data.status == 'ok') {
+            logMeIn(data.user)            
+        }
+
     };
 
     return (
