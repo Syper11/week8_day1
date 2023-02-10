@@ -1,5 +1,5 @@
 import React, { Component} from 'react'
-import CheckboxList from './components/CheckboxList'
+import CheckboxList from '../components/CheckboxList'
 
 export default class ToDo extends Component {
     
