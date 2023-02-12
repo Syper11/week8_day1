@@ -9,10 +9,11 @@ import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
 
 export default class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      myList: []
+      myList: [],
+      cart: []
     }
   }
   addToDo = (e) => {
@@ -26,6 +27,20 @@ export default class App extends Component {
     this.setState({myList: copy})
   };
 
+  addProduct = product => {
+    this.setState(state => ({
+      cart: [...state.cart, product]
+    }));
+  };
+
+  removeProduct = id => {
+    this.setState(state => {
+      const newCart = [...state.cart];
+      newCart.splice(id, 1);
+      return { cart: newCart };
+    });
+  };
+
   render() {
     return (
       <BrowserRouter>
@@ -35,8 +50,8 @@ export default class App extends Component {
             <Route path='/Login' element={<Lognin />} />
             <Route path='/Signup' element={<Signup />} />
             <Route path='/todo' element={<ToDo myList={this.state.myList} handleToDoSubmit={this.addToDo} deleteToDo={this.deleteToDo}/>} />
-            <Route path='/' element={<Home />} />
-            <Route path='/Cart' element={<Cart />} />
+            <Route path='/' element={<Home addProduct={this.addProduct}/>} />
+            <Route path='/Cart' element={<Cart items={this.state.cart} removeProduct={this.removeProduct}/>} />
           </Routes>
         </div>
       </BrowserRouter>

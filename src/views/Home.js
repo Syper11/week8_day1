@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
-import Shop from "../components/Shop"
+import CartsItems from "../components/Product"
 
 export default class Home extends Component {
   constructor() {
     super();
     this.state = {
-      posts: []
+      product: []
     }
   };
 
 
 
   showItems = () => {
-    return this.state.posts.map(p => <Shop key={p.id} itemInfo={p}/>)
+    return this.state.product.map(product => <CartsItems key={product.id} product={product}/>)
   };
 
   getItems = async () => {
@@ -20,7 +20,7 @@ export default class Home extends Component {
     const data = await res.json();
     console.log(data)
     if (data.status==='ok'){
-      this.setState({posts:data.posts})
+      this.setState({product:data.posts})
     }
 
 
