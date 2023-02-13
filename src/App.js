@@ -28,17 +28,27 @@ export default class App extends Component {
   };
 
   addProduct = product => {
+    console.log(product)
     this.setState(state => ({
       cart: [...state.cart, product]
-    }));
+      
+
+    }));console.log('addProduct')
   };
 
-  removeProduct = id => {
+  removeProduct = index => {
     this.setState(state => {
       const newCart = [...state.cart];
-      newCart.splice(id, 1);
+      newCart.splice(index, 1);
       return { cart: newCart };
     });
+  };
+
+  handleDeleteAll = () => {
+    console.log("654165")
+    this.setState( state => {
+      return {cart: []};
+    })
   };
 
   render() {
@@ -51,7 +61,7 @@ export default class App extends Component {
             <Route path='/Signup' element={<Signup />} />
             <Route path='/todo' element={<ToDo myList={this.state.myList} handleToDoSubmit={this.addToDo} deleteToDo={this.deleteToDo}/>} />
             <Route path='/' element={<Home addProduct={this.addProduct}/>} />
-            <Route path='/Cart' element={<Cart items={this.state.cart} removeProduct={this.removeProduct}/>} />
+            <Route path='/Cart' element={<Cart items={this.state.cart} removeProduct={this.removeProduct} handleDeleteAll={this.handleDeleteAll}/>} />
           </Routes>
         </div>
       </BrowserRouter>

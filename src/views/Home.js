@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import CartsItems from "../components/Product"
+import Product from "../components/Product"
 
 export default class Home extends Component {
   constructor() {
@@ -12,9 +12,9 @@ export default class Home extends Component {
 
 
   showItems = () => {
-    return this.state.product.map(product => <CartsItems key={product.id} product={product}/>)
+    return this.state.product.map(product => <Product key={product.id} product={product} addProduct={this.props.addProduct}/>)
   };
-
+  
   getItems = async () => {
     const res = await fetch(`http://localhost:5000/api/all_products`);
     const data = await res.json();
