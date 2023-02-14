@@ -45,11 +45,7 @@ export default class App extends Component {
   };
 
   handleDeleteAll = () => {
-    console.log("654165")
-    this.setState( state => {
-      return {cart: []};
-    })
-  };
+    this.setState({})};
 
   render() {
     return (

@@ -1,10 +1,8 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -12,9 +10,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { redirect } from 'react-router-dom';
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
+
 import { Navigate } from 'react-router-dom';
 
 function Copyright(props) {
@@ -22,7 +18,7 @@ function Copyright(props) {
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="/">
-        ToDo
+        Nick & Brett
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -33,6 +29,8 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUpPage() {
+  const [redirect, setRedirect] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const first_name = e.target.first_name.value;
@@ -41,6 +39,7 @@ export default function SignUpPage() {
     const email = e.target.email.value;
     const password = e.target.password.value;
     const confirmPassword = e.target.confirmPassword.value;
+    
 
     const reqBody = {
         first_name: first_name,
@@ -65,10 +64,13 @@ export default function SignUpPage() {
     const res = await fetch(url, options);
     const data = await res.json();
     console.log(data)
-
+    if (data.status==='ok'){
+      setRedirect(true)
+  }
 };
 
-  return (
+  return redirect?<Navigate to='/Login' />:
+  (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />

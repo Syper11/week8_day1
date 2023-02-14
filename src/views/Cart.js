@@ -8,6 +8,10 @@ export default class Cart extends Component {
         this.props.removeProduct(index)
     };
 
+    handleDeleteAll = () => {
+      this.props.handleDeleteAll({})
+  };
+
     showItems = () => {
         return this.props.items.map(item => <Shop key={item.id} item={item} removeProduct={this.props.removeProduct} handleDeleteAll={this.props.handleDeleteAll}/>)
       };

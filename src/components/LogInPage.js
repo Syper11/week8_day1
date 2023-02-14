@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 
 
 function Copyright(props) {
@@ -19,7 +20,7 @@ function Copyright(props) {
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
             <Link color="inherit" href="">
-                ToDo
+                Nick & Brett
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -30,6 +31,8 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function LogInPage({logMeIn}) {
+    const navigate = useNavigate()
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const username = e.target.username.value;
@@ -48,10 +51,11 @@ export default function LogInPage({logMeIn}) {
         const res = await fetch(url, options);
         const data = await res.json();
         console.log(data)
-        if (data.status == 'ok') {
-            logMeIn(data.user)            
+        if (data.status === 'ok') {
+            logMeIn(data.user)
+            navigate('/')        
+          
         }
-
     };
 
     return (
@@ -72,7 +76,7 @@ export default function LogInPage({logMeIn}) {
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
-                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
                             required
