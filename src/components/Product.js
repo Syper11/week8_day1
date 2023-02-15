@@ -1,29 +1,39 @@
-import React, { Component } from 'react';
+import React from 'react';
 
+export default function Product({product, addProduct, user}) {
+  const addToCartAPI = async () => {
+    
+    if (user.apitoken){
+      const url = await fetch(`http://localhost:5000/api/cart/add`);
+      const options = {
+        method:"POST",
+        body: JSON.stringify({'productId': product.item_id}),
+        
+        headers:{
+          'content-Type':'applicattion/json',
+          Authorization: `Bearer ${user.apitoken}`
+        }
+      }
+      
+    
 
-class Product extends Component {
-  handleClick = () => {
-    this.props.addProduct(this.props.product);
-    console.log(this.props.product,"product handle click")
-  };
-  
-
-  render() {
-    const { item_name, img_url, price } = this.props.product;
-    return (
-                <div id="sale_post" className="row">
-                    <div id="ind_cards" className="card" style={{ width: "18rem" }}>
-                        <img src={img_url} className="card-img-top" alt="..." />
-                        <div className="card-body">
-                            <h5 className="card-title">{item_name}</h5>
-                            <p className="card-text">${price}.00</p>
-                            <button onClick={this.handleClick}>Add To cart!</button>
-                            
-                        </div>
-                    </div>
-                </div>
-        )
+      const res = await fetch(url, options)
+      const data = await res.json();
+      console.log(data)
+        
     }
-}
+  };
 
-export default Product;
+  return (
+    <div id="sale_post" className="row">
+      <div id="ind_cards" className="card" style={{ width: "18rem" }}>
+        <img src={product.img_url} className="card-img-top" alt="..." />
+        <div className="card-body">
+          <h5 className="card-title">{product.item_name}</h5>
+          <p className="card-text">${product.price}.00</p>
+          <button className='btn btn-primary' onClick={()=>{addProduct(product); addToCartAPI()} }>Add To cart!</button>
+        </div>
+      </div>
+    </div>
+  );
+}

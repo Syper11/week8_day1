@@ -1,43 +1,34 @@
-import React, { Component } from 'react'
-import Product from "../components/Product"
+import React, { useState, useEffect } from 'react';
+import Product from '../components/Product';
 
-export default class Home extends Component {
-  constructor() {
-    super();
-    this.state = {
-      product: []
-    }
+const Home = ({addProduct, user}) => {
+  const [products, setProducts] = useState([]);
+
+  const showItems = () => {
+    return products.map((product) => (
+      <Product
+        key={product.id}
+        product={product}
+        addProduct={addProduct}
+        user={user}
+      />
+    ));
   };
 
-
-
-  showItems = () => {
-    return this.state.product.map(product => <Product key={product.id} product={product} addProduct={this.props.addProduct}/>)
-  };
-  
-  getItems = async () => {
+  const getItems = async () => {
     const res = await fetch(`http://localhost:5000/api/all_products`);
     const data = await res.json();
-    console.log(data)
-    if (data.status==='ok'){
-      this.setState({product:data.posts})
+    console.log(data);
+    if (data.status === 'ok') {
+      setProducts(data.posts);
     }
+  };
 
+  useEffect(() => {
+    getItems();
+  }, []);
 
+  return <div>{showItems()}</div>;
+};
 
-
-  }
-  componentDidMount = () => {
-    this.getItems();
-  }
-
-
-
-  render() {
-    return (
-      <div>
-        {this.showItems()}
-      </div>
-    )
-  }
-}
+export default Home;

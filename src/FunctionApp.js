@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Nav from './Nav';
 import Home from './views/Home';
 import Signup from './views/Signup';
@@ -11,6 +11,15 @@ export default function App() {
     const [myList, setMyList] = useState([]);
     const [cart, setCart] = useState([]);
     const [user, setUser] = useState({});
+
+
+    const cartTotal = () => {
+        let total = 0;
+        for(let item of cart){
+            total += parseFloat(item.price)
+        }
+        return total.toFixed(2)
+    };
 
     const logMeIn = (user) => {
         setUser(user)
@@ -42,19 +51,45 @@ export default function App() {
     };
 
     const handleDeleteAll = () => {
-        setCart([]);
+        setCart({});
     };
+
+    const getCartAPI = async (user) => {
+        if (user.apitoken){
+            const url = await fetch(`http://localhost:5000/api/cart/get`)
+            const options = {
+                method: "GET",
+                header: {
+                Authorization: `Bearer ${user.apitoken}` 
+                }
+            }
+
+            const res = await fetch()
+            const data = await res.json();
+            if (data.status === 'ok'){
+                setCart(data.cart)
+            }
+
+            
+        } else {
+            setCart([])
+        }
+    };
+
+    useEffect(()=>{
+        getCartAPI(user)
+    }, [user])
 
     return (
         <BrowserRouter>
             <div>
-                <Nav user={user} logMeOut={logMeOut} />
+                <Nav user={user} logMeOut={logMeOut} cart={cart} cartTotal={cartTotal}/>
                 <Routes>
                     <Route path='/Login' element={<Login logMeIn={logMeIn} />} />
                     <Route path='/Signup' element={<Signup />} />
                     <Route path='/todo' element={<ToDo myList={myList} handleToDoSubmit={addToDo} deleteToDo={deleteToDo} />} />
-                    <Route path='/' element={<Home addProduct={addProduct} />} />
-                    <Route path='/Cart' element={<Cart items={cart} removeProduct={removeProduct} handleDeleteAll={handleDeleteAll} />} />
+                    <Route path='/' element={<Home addProduct={addProduct} user={user}/>} />
+                    <Route path='/Cart' element={<Cart items={cart} removeProduct={removeProduct} handleDeleteAll={handleDeleteAll} user={user}/>} />
                 </Routes>
             </div>
         </BrowserRouter>

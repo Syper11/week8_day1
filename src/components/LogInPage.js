@@ -31,32 +31,33 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function LogInPage({logMeIn}) {
-    const navigate = useNavigate()
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const username = e.target.username.value;
-        const password = e.target.password.value;
-        
-
-        const url = 'http://localhost:5000/api/login'
-        const options = {
-            method: "POST",
-            headers: {
-                Authorization: `Basic ${btoa(username+':'+password)}`
-            }
-        }
+        const navigate = useNavigate()
     
-
-        const res = await fetch(url, options);
-        const data = await res.json();
-        console.log(data)
-        if (data.status === 'ok') {
-            logMeIn(data.user)
-            navigate('/')        
-          
-        }
-    };
+    
+        const handleSubmit = async (e) => {
+            e.preventDefault();
+            const username = e.target.username.value;
+            const password = e.target.password.value;
+            
+    
+            const url = 'http://localhost:5000/api/login'
+            const options = {
+                method: "POST",
+                headers: {
+                    Authorization: `Basic ${btoa(username+':'+password)}`
+                }
+            }
+        
+    
+            const res = await fetch(url, options);
+            const data = await res.json();
+            console.log(data)
+            if (data.status == 'ok') {
+                logMeIn(data.user) 
+                navigate('/')        
+            }
+    
+        };
 
     return (
         <ThemeProvider theme={theme}>
@@ -74,7 +75,7 @@ export default function LogInPage({logMeIn}) {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        Log in in
                     </Typography>
                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                         <TextField

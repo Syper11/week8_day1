@@ -10,7 +10,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
 import { Navigate } from 'react-router-dom';
 
 function Copyright(props) {
@@ -58,13 +57,13 @@ export default function SignUpPage() {
         }
     }
     if (password!== confirmPassword) {
-        console.log('oops password dont match')
+        console.log('Password dont match')
     }
 
     const res = await fetch(url, options);
     const data = await res.json();
     console.log(data)
-    if (data.status==='ok'){
+    if (data.status=='ok'){
       setRedirect(true)
   }
 };

@@ -9,7 +9,7 @@ export default class Cart extends Component {
     };
 
     handleDeleteAll = () => {
-      this.props.handleDeleteAll({})
+      this.props.handleDeleteAll()
   };
 
     showItems = () => {
