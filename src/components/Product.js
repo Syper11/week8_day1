@@ -4,13 +4,13 @@ export default function Product({product, addProduct, user}) {
   const addToCartAPI = async () => {
     
     if (user.apitoken){
-      const url = await fetch(`http://localhost:5000/api/cart/add`);
+      const url = (`http://localhost:5000/api/cart/add`);
       const options = {
         method:"POST",
-        body: JSON.stringify({'productId': product.item_id}),
+        body: JSON.stringify({'productId': product.id}),
         
         headers:{
-          'content-Type':'applicattion/json',
+          'content-Type':'application/json',
           Authorization: `Bearer ${user.apitoken}`
         }
       }
@@ -19,7 +19,11 @@ export default function Product({product, addProduct, user}) {
 
       const res = await fetch(url, options)
       const data = await res.json();
-      console.log(data)
+      if (data.status === 'ok'){
+        console.log(data)
+      }
+      
+      
         
     }
   };

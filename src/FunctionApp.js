@@ -44,33 +44,37 @@ export default function App() {
         setCart([...cart, product]);
     };
 
-    const removeProduct = (index) => {
-        const newCart = [...cart];
-        newCart.splice(index, 1);
-        setCart(newCart);
+    const removeProduct = (product) => {
+        const copy = [...cart]
+        for (let i = cart.length-1; i>0; i--){
+            if (product.id === cart[i].id){
+                copy.splice(i,1)
+                break
+            }
+        }
+        setCart(copy)
     };
 
     const handleDeleteAll = () => {
         setCart({});
     };
 
-    const getCartAPI = async (user) => {
+    const getCartAPI = async (user) =>{
         if (user.apitoken){
-            const url = await fetch(`http://localhost:5000/api/cart/get`)
+            const url = 'http://127.0.0.1:5000/api/cart/get';
             const options = {
                 method: "GET",
-                header: {
-                Authorization: `Bearer ${user.apitoken}` 
+                headers: {
+                    Authorization: `Bearer ${user.apitoken}`
                 }
             }
 
-            const res = await fetch()
+            const res = await fetch(url, options);
             const data = await res.json();
-            if (data.status === 'ok'){
+            if (data.status === 'ok') {
                 setCart(data.cart)
             }
 
-            
         } else {
             setCart([])
         }
